@@ -2,13 +2,16 @@
 /**
  * Prepare majestic-site for build.
  *
+ * Contract-critical. Treat as infrastructure. Fail hard on errors.
+ *
  * 1. Copy docs from majestic-docs (sibling repo or env MAJESTIC_DOCS_PATH)
  * 2. Copy contract artifacts from majestic-api-contracts (sibling or env MAJESTIC_CONTRACTS_PATH)
- * 3. Run pnpm generate in contracts repo if needed
+ * 3. Run pnpm generate in contracts repo
  * 4. Generate contracts/index.md from contract.json
  * 5. Embed version/hash/buildTime for footer
  *
- * For CI: clone both repos first, then run this with paths.
+ * Fails hard if: contracts path missing, contract.json missing, contract.bundle.json missing,
+ * or contract version/hash invalid. Idempotent.
  */
 import { execSync } from 'child_process';
 import {
@@ -47,6 +50,12 @@ function copyRecursive(src, dest) {
 
 function prepareDocs() {
   if (!existsSync(DOCS_REPO)) {
+    if (process.env.MAJESTIC_DOCS_PATH) {
+      throw new Error(
+        `majestic-docs not found at ${DOCS_REPO}. ` +
+          'CI must clone majestic-docs before prepare.'
+      );
+    }
     console.warn(`majestic-docs not found at ${DOCS_REPO}. Skipping docs copy.`);
     return;
   }
@@ -89,11 +98,12 @@ function prepareDocs() {
 
 function prepareContracts() {
   if (!existsSync(CONTRACTS_REPO)) {
-    console.warn(`majestic-api-contracts not found at ${CONTRACTS_REPO}. Skipping contracts.`);
-    return null;
+    throw new Error(
+      `majestic-api-contracts not found at ${CONTRACTS_REPO}. ` +
+        'Set MAJESTIC_CONTRACTS_PATH or ensure sibling repo exists.'
+    );
   }
 
-  // Run generate in contracts repo
   execSync('pnpm run generate', { cwd: CONTRACTS_REPO, stdio: 'inherit' });
 
   const contractPath = join(CONTRACTS_REPO, 'contract.json');
@@ -101,14 +111,26 @@ function prepareContracts() {
   const schemasPath = join(CONTRACTS_REPO, 'schemas');
 
   if (!existsSync(contractPath)) {
-    throw new Error('contract.json not found after generate');
+    throw new Error('contract.json not found after generate. Run pnpm run generate in majestic-api-contracts.');
+  }
+
+  if (!existsSync(bundlePath)) {
+    throw new Error(
+      'contract.bundle.json not found after generate. Run pnpm run generate in majestic-api-contracts.'
+    );
+  }
+
+  const contract = JSON.parse(readFileSync(contractPath, 'utf-8'));
+  if (!contract.contractVersion || typeof contract.contractVersion !== 'string') {
+    throw new Error('contract.json missing or invalid contractVersion.');
+  }
+  if (!contract.schemaHash || typeof contract.schemaHash !== 'string') {
+    throw new Error('contract.json missing or invalid schemaHash.');
   }
 
   mkdirSync(publicDir, { recursive: true });
   copyFileSync(contractPath, join(publicDir, 'contract.json'));
-  if (existsSync(bundlePath)) {
-    copyFileSync(bundlePath, join(publicDir, 'contract.bundle.json'));
-  }
+  copyFileSync(bundlePath, join(publicDir, 'contract.bundle.json'));
 
   const schemasDest = join(publicDir, 'schemas');
   mkdirSync(schemasDest, { recursive: true });
@@ -121,13 +143,11 @@ function prepareContracts() {
   }
 
   console.log('Copied contract artifacts to public/');
-
-  const contract = JSON.parse(readFileSync(contractPath, 'utf-8'));
   return contract;
 }
 
 function generateContractsPage(contract) {
-  if (!contract) return;
+  if (!contract) throw new Error('generateContractsPage requires contract from prepareContracts.');
 
   const buildTime = new Date().toISOString();
   const { contractVersion, schemaHash, schemas, endpointMap } = contract;
@@ -194,10 +214,15 @@ ${schemaRows}
 
 function main() {
   console.log('Preparing majestic-site...');
-  prepareDocs();
-  const contract = prepareContracts();
-  generateContractsPage(contract);
-  console.log('Done.');
+  try {
+    prepareDocs();
+    const contract = prepareContracts();
+    generateContractsPage(contract);
+    console.log('Done.');
+  } catch (err) {
+    console.error(err.message);
+    process.exit(1);
+  }
 }
 
 main();

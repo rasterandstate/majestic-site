@@ -29,6 +29,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           repository: ${{ github.repository_owner }}/majestic-docs
+          ref: main
           path: majestic-docs
           token: ${{ secrets.GITHUB_TOKEN }}
 
@@ -36,6 +37,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           repository: ${{ github.repository_owner }}/majestic-api-contracts
+          ref: main
           path: majestic-api-contracts
           token: ${{ secrets.GITHUB_TOKEN }}
 
