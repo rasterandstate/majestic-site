@@ -4,11 +4,7 @@ layout: home
 
 # Majestic Core — Technical Documentation
 
-**Version:** See footer  
-**Contract Hash:** See footer  
-**Built:** See footer  
-
-Majestic is a local-first, identity-driven media server.
+Majestic is a local-first, identity-driven media server. Version, hash, and build time are in the footer.
 
 ---
 
