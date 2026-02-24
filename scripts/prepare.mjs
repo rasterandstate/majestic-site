@@ -104,6 +104,8 @@ function prepareContracts() {
     );
   }
 
+  // Ensure deps installed before generate (self-contained; CI layout can vary)
+  execSync('pnpm install --frozen-lockfile', { cwd: CONTRACTS_REPO, stdio: 'inherit' });
   execSync('pnpm run generate', { cwd: CONTRACTS_REPO, stdio: 'inherit' });
 
   const contractPath = join(CONTRACTS_REPO, 'contract.json');

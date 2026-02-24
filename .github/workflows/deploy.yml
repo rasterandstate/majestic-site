@@ -55,11 +55,7 @@ jobs:
         run: pnpm install --frozen-lockfile
         working-directory: majestic-site
 
-      - name: Install majestic-api-contracts deps
-        run: pnpm install --frozen-lockfile
-        working-directory: majestic-api-contracts
-
-      - name: Prepare (copy docs, generate contracts, copy artifacts)
+      - name: Prepare (copy docs, install contracts deps, generate, copy artifacts)
         run: pnpm run prepare
         working-directory: majestic-site
         env:
