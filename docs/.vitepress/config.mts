@@ -72,7 +72,7 @@ export default defineConfig({
     socialLinks: [],
     footer: {
       message: 'Contract version and hash embedded at build time.',
-      copyright: 'Majestic — local-first, identity-driven media server.',
+      copyright: 'Built from canonical contract bundle.',
     },
 
     outline: [2, 3],

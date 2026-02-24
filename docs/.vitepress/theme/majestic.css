@@ -55,3 +55,16 @@
 :root:not(.dark) {
   color-scheme: dark;
 }
+
+/* Spec site: tighter density, less marketing air */
+.VPHome .VPHero {
+  padding-top: 2rem;
+  padding-bottom: 1.5rem;
+}
+.VPHome .vp-doc {
+  padding-top: 1rem;
+}
+.VPHome .vp-doc h2 {
+  margin-top: 1.5rem;
+  margin-bottom: 0.75rem;
+}

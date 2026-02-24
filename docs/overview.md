@@ -1,6 +1,6 @@
 # Overview
 
-Majestic is a local-first, identity-driven media server.
+Majestic is a local-first media server built on immutable edition identity.
 
 ## Principles
 
@@ -14,6 +14,6 @@ Majestic is a local-first, identity-driven media server.
 | Section | Contents |
 |---------|----------|
 | [Architecture](/architecture/) | Identity, API, build, streaming, data lineage |
-| [Contracts](/contracts/) | Wire contract, schemas, versioning, bundle |
+| [Contracts](/contracts/) | Schemas, versioning, canonical bundle |
 | [Integration](/integration/) | Client integration patterns |
 | [Invariants](/invariants/) | Breaking-change rules, compatibility policy |
