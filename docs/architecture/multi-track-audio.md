@@ -1,4 +1,4 @@
-# Multi-Track Audio Selection — Design
+# Multi-Track Audio Selection - Design
 
 **Purpose:** When a file has multiple audio tracks (e.g. TrueHD 7.1 + AC3 5.1), Majestic picks the best track for the playback device to avoid transcoding when possible.
 

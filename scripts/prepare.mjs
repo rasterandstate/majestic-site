@@ -59,13 +59,16 @@ function prepareDocs() {
     console.warn(`majestic-docs not found at ${DOCS_REPO}. Skipping docs copy.`);
     return;
   }
+  const noEmDash = (s) => s.replace(/\s*—\s*/g, ' - ');
+
   const archSrc = join(DOCS_REPO, 'architecture');
   const archDest = join(docsDir, 'architecture');
   if (existsSync(archSrc)) {
     mkdirSync(archDest, { recursive: true });
     for (const name of readdirSync(archSrc)) {
       if (name.endsWith('.md')) {
-        copyFileSync(join(archSrc, name), join(archDest, name));
+        const content = noEmDash(readFileSync(join(archSrc, name), 'utf-8'));
+        writeFileSync(join(archDest, name), content, 'utf-8');
       }
     }
     console.log('Copied architecture docs');
@@ -77,7 +80,8 @@ function prepareDocs() {
     mkdirSync(invDest, { recursive: true });
     for (const name of readdirSync(govSrc)) {
       if (name.endsWith('.md')) {
-        copyFileSync(join(govSrc, name), join(invDest, name));
+        const content = noEmDash(readFileSync(join(govSrc, name), 'utf-8'));
+        writeFileSync(join(invDest, name), content, 'utf-8');
       }
     }
     console.log('Copied governance docs to invariants');
@@ -89,7 +93,8 @@ function prepareDocs() {
     mkdirSync(verDest, { recursive: true });
     for (const name of readdirSync(verSrc)) {
       if (name.endsWith('.md')) {
-        copyFileSync(join(verSrc, name), join(verDest, name));
+        const content = noEmDash(readFileSync(join(verSrc, name), 'utf-8'));
+        writeFileSync(join(verDest, name), content, 'utf-8');
       }
     }
     console.log('Copied versioning docs');
@@ -158,7 +163,7 @@ function generateContractsPage(contract) {
     .sort(([a], [b]) => a.localeCompare(b))
     .map(
       ([name, meta]) =>
-        `| [${name}](/schemas/${meta.path.split('/').pop()}) | ${(meta.description || '—').replace(/\|/g, '\\|')} |`
+        `| [${name}](/schemas/${meta.path.split('/').pop()}) | ${(meta.description || '-').replace(/\|/g, '\\|')} |`
     )
     .join('\n');
 
@@ -167,18 +172,18 @@ function generateContractsPage(contract) {
       ? Object.entries(endpointMap)
           .map(([ep, schema]) => `| \`${ep}\` | ${schema} |`)
           .join('\n')
-      : '| — | — |';
+      : '| - | - |';
 
   const md = `---
 title: Contract Reference
-description: Wire contract — version, hash, schemas, endpoint map
+description: Wire contract (version, hash, schemas, endpoint map)
 ---
 
 # Contract Reference
 
 **Version:** \`${contractVersion}\`  
 **Hash:** \`${schemaHash}\`  
-**Generated:** ${contract.generatedAt || '—'}
+**Generated:** ${contract.generatedAt || '-'}
 
 Majestic uses a single, coordinated contract version across server and client. Hash enforcement prevents silent drift.
 
@@ -196,7 +201,7 @@ ${schemaRows}
 
 ## Download
 
-[Download contract.bundle.json](/contract.bundle.json) — deterministic, hash-verified aggregate of all schemas.
+[Download contract.bundle.json](/contract.bundle.json): deterministic, hash-verified aggregate of all schemas.
 `;
 
   mkdirSync(join(docsDir, 'contracts'), { recursive: true });

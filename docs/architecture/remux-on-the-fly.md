@@ -1,4 +1,4 @@
-# Remux On-The-Fly — Design (v1)
+# Remux On-The-Fly - Design (v1)
 
 **Context:** AVPlayer on tvOS does not open MKV, M2TS, or TS. Container is the boundary, not codecs.
 
@@ -113,7 +113,7 @@ ffmpeg -i input.mkv   # or input.m2ts, input.ts
 
 - **Input:** MKV, M2TS, or TS.
 - Output: **file** (not stdout) so it becomes range-seekable.
-- `-c:v copy` / `-c:a copy` — no transcoding.
+- `-c:v copy` / `-c:a copy` - no transcoding.
 - `-tag:v hvc1` for HEVC Apple compatibility.
 - `delay_moov` (not `empty_moov`) for EAC3 compatibility.
 - Temp file first, then atomic rename on success.

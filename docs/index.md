@@ -2,7 +2,7 @@
 layout: home
 ---
 
-# Majestic Core — Technical Documentation
+# Majestic Core: Technical Documentation
 
 Majestic is a local-first media server built on immutable edition identity.
 

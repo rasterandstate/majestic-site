@@ -1,4 +1,4 @@
-# Playback Philosophy — Foundational Constraints
+# Playback Philosophy - Foundational Constraints
 
 **Purpose:** These rules are frozen in writing. They define Majestic's playback identity. If they drift, Majestic becomes Plex-with-a-different-logo.
 
@@ -124,7 +124,7 @@ This forces the right architecture. It prevents "we'll add transcoding later" fr
 
 ---
 
-## 6. Summary — The Lock
+## 6. Summary - The Lock
 
 | Area | Lock |
 |------|------|

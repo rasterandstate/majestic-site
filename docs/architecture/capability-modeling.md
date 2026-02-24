@@ -1,12 +1,12 @@
-# Capability Modeling — Design Blueprint
+# Capability Modeling - Design Blueprint
 
 **Principle:** Store facts. Compute opinions.
 
 ---
 
-## Layer 1 — Media Capability Profile (Database)
+## Layer 1 - Media Capability Profile (Database)
 
-Store normalized fields only. Do NOT store `direct_play_compatible` or `compatibility_reason` — those are computed.
+Store normalized fields only. Do NOT store `direct_play_compatible` or `compatibility_reason` - those are computed.
 
 ### Video
 - `video_codec` (h264, hevc, vp9, av1)
@@ -30,11 +30,11 @@ Store normalized fields only. Do NOT store `direct_play_compatible` or `compatib
 - `probe_state` (`ok` | `failed` | `unknown`)
 - `probe_error` (short string when failed)
 - `probe_version` (optional, for invalidation)
-- `probe_last_run_at` (when probe last ran — observability for "why is this unknown?")
+- `probe_last_run_at` (when probe last ran - observability for "why is this unknown?")
 
 ---
 
-## Step 1 — Probe Module
+## Step 1 - Probe Module
 
 **Location:** `src/lib/server/probe/ffprobe.ts`
 
@@ -69,7 +69,7 @@ Store normalized fields only. Do NOT store `direct_play_compatible` or `compatib
 
 ---
 
-## Step 2 — When to Probe
+## Step 2 - When to Probe
 
 On scan:
 - **New file** → probe
@@ -84,7 +84,7 @@ If probe fails:
 
 ---
 
-## Step 3 — Device Profile (Apple TV)
+## Step 3 - Device Profile (Apple TV)
 
 Static object, versioned:
 
@@ -114,7 +114,7 @@ type DeviceProfile = {
 
 ---
 
-## Step 4 — Evaluate Function
+## Step 4 - Evaluate Function
 
 Pure function:
 ```ts

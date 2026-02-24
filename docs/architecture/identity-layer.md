@@ -1,6 +1,6 @@
 # Identity Layer
 
-The identity layer defines how Majestic models ownership and edition truth. Edition identity is derived from content-derived inputs—never from paths, filenames, or mutable metadata.
+The identity layer defines how Majestic models ownership and edition truth. Edition identity is derived from content-derived inputs - never from paths, filenames, or mutable metadata.
 
 ## Principles
 

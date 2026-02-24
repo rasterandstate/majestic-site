@@ -1,4 +1,4 @@
-# Majestic Server — Architectural Surface
+# Majestic Server - Architectural Surface
 
 > **Purpose:** System architecture for integrators. Describes components, responsibilities, data flow, and integration points.
 >
@@ -12,7 +12,7 @@
 
 **majestic-server** is the core media server for Majestic: a local-first, ownership-driven media system. It provides the identity layer, media registry, fingerprinting, scanning, and streaming. Identity integrity and playback reliability are the highest priorities.
 
-**Non-responsibilities:** No cloud requirement for core playback; no silent metadata guessing; transcoding lives in build tools/artifact pipeline, not in the streaming response path; Web UI is secondary—clients are native apps.
+**Non-responsibilities:** No cloud requirement for core playback; no silent metadata guessing; transcoding lives in build tools/artifact pipeline, not in the streaming response path; Web UI is secondary - clients are native apps.
 
 ---
 
@@ -155,24 +155,24 @@
 **Path:** `GET /stream/media_file/{id}`
 
 **Query parameters:**
-- `device` — Required. Device profile (e.g. `appletv_v1`). Affects playback prediction and compatibility.
-- `token` — Optional. Playback token when authentication is enabled.
+- `device` - Required. Device profile (e.g. `appletv_v1`). Affects playback prediction and compatibility.
+- `token` - Optional. Playback token when authentication is enabled.
 
 **Request headers:**
-- `Range: bytes=start-end` — Partial content. Supported for seeking.
-- `Range: bytes=-N` — Suffix range. Last N bytes.
-- `X-Majestic-Client-Contract` — Contract version. Server may return 426 when major version mismatches.
+- `Range: bytes=start-end` - Partial content. Supported for seeking.
+- `Range: bytes=-N` - Suffix range. Last N bytes.
+- `X-Majestic-Client-Contract` - Contract version. Server may return 426 when major version mismatches.
 
 **Response:**
-- **200** — Full content (no Range) or direct play
-- **206** — Partial content. Includes `Content-Range`, `Accept-Ranges: bytes`
-- **202** — Artifact building. Retry-After header. Client may poll prewarm watch.
-- **400** — Incompatibility. Structured payload describes why client cannot play.
-- **404** — Media file not found
-- **416** — Range not satisfiable
+- **200** - Full content (no Range) or direct play
+- **206** - Partial content. Includes `Content-Range`, `Accept-Ranges: bytes`
+- **202** - Artifact building. Retry-After header. Client may poll prewarm watch.
+- **400** - Incompatibility. Structured payload describes why client cannot play.
+- **404** - Media file not found
+- **416** - Range not satisfiable
 
 **Response headers:**
-- `X-Majestic-Contract` — Contract version on all responses
+- `X-Majestic-Contract` - Contract version on all responses
 
 ### HLS (When Enabled)
 

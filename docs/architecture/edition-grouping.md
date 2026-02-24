@@ -1,4 +1,4 @@
-# Edition Grouping — Design
+# Edition Grouping - Design
 
 **Principle:** Server owns truth. Client renders it.
 
@@ -8,7 +8,7 @@ Edition grouping is the first feature that makes someone say: "Wait… this actu
 
 ## What It Must Do
 
-1. **Group by `movie_id`** — Multiple media files for the same movie become one row with multiple editions.
+1. **Group by `movie_id`** - Multiple media files for the same movie become one row with multiple editions.
 
 2. **Editions listed with:**
    - Edition label (override > computed > canonical)
@@ -81,14 +81,14 @@ Priority: override > computed > canonical (when variants exist) > format.
 
 Reuse `resolveEditionLabelForPoster` logic where applicable.
 
-**Critical:** Edition labels must be **deterministic, cached, and not re-derived on every scan** from heuristics. If filename/folder parsing is used, it must produce a **normalized, stored label** — not a live guess. You're building a library, not a regex experiment.
+**Critical:** Edition labels must be **deterministic, cached, and not re-derived on every scan** from heuristics. If filename/folder parsing is used, it must produce a **normalized, stored label** - not a live guess. You're building a library, not a regex experiment.
 
 **Label survival:** Labels must survive file deletion and re-add. If a file is removed and later re-imported with the same fingerprint → same edition → same label. Label storage must be anchored to **media_file identity** (fingerprint or media_file_id), not to path. If labels depend on current folder path and get regenerated on re-import, you introduce drift.
 
 For media files without disc_edition linkage:
 
 - Store derived label (e.g. in media_file or a join table) at scan/match time
-- Anchor to fingerprint or media_file_id — not path
+- Anchor to fingerprint or media_file_id - not path
 - Fallback: "Edition 1", "Edition 2" (deterministic by media_file_id)
 
 ---
@@ -103,7 +103,7 @@ Criteria (in order):
 2. Resolution descending (4K before 1080p)
 3. media_file_id ascending (tie-breaker)
 
-**What we avoid:** Bitrate comparisons, "best HDR wins," audio heuristics, device-dependent reordering. If ordering depends on device, the UI feels unstable — the same movie reorders when device changes. Canonical first. Always.
+**What we avoid:** Bitrate comparisons, "best HDR wins," audio heuristics, device-dependent reordering. If ordering depends on device, the UI feels unstable - the same movie reorders when device changes. Canonical first. Always.
 
 ---
 
@@ -138,9 +138,9 @@ You do not want a movie to show "Playable" while one edition is flagged as corru
 
 ```
 Editions
-• Theatrical — 4K HDR10 · Direct Play Ready
-• Director's Cut — 1080p SDR · Direct Play Ready
-• Steelbook — DV P7 · Not Supported on Apple TV
+• Theatrical - 4K HDR10 · Direct Play Ready
+• Director's Cut - 1080p SDR · Direct Play Ready
+• Steelbook - DV P7 · Not Supported on Apple TV
 ```
 
 Each selectable. Each with capability summary + compatibility status.
@@ -154,10 +154,10 @@ Default selection = first (canonical). User can change. Play uses selected editi
 ## What Not to Do
 
 - **No silent auto-picking** when multiple editions exist
-- **No client-side grouping** — server aggregates
-- **No grid performance degradation** — aggregation is a server concern
-- **No guessing** — explicit selection required
-- **No "best available" collapse** — never auto-play or auto-select "best edition on this device." That is how you become Plex again. Majestic does not optimize away choice. It exposes it.
+- **No client-side grouping** - server aggregates
+- **No grid performance degradation** - aggregation is a server concern
+- **No guessing** - explicit selection required
+- **No "best available" collapse** - never auto-play or auto-select "best edition on this device." That is how you become Plex again. Majestic does not optimize away choice. It exposes it.
 
 ---
 
@@ -169,11 +169,11 @@ Default selection = first (canonical). User can change. Play uses selected editi
 
 ## Implementation Order
 
-1. **Schema (if needed):** Edition label storage — ensure derived labels are cached, not recomputed per request
+1. **Schema (if needed):** Edition label storage - ensure derived labels are cached, not recomputed per request
 2. **API:** New `/library` response shape with `editions` array, `default_edition_index`
-3. **API:** Aggregation logic — group media_files by movie_id, build editions array
+3. **API:** Aggregation logic - group media_files by movie_id, build editions array
 4. **API:** Edition label resolution (from stored/cached source), canonical ordering
-5. **API:** Badge priority — worst status across editions
+5. **API:** Badge priority - worst status across editions
 6. **Apple TV:** Update model for new response shape
 7. **Apple TV:** Grid uses movie-level items (one poster per movie)
 8. **Apple TV:** Detail page shows Editions section when count > 1

@@ -1,4 +1,4 @@
-# Integrity History — Design
+# Integrity History - Design
 
 **Principle:** A system that remembers when reality changed.
 
@@ -48,12 +48,12 @@ Plex can't answer that. Majestic can.
 
 ### Indexes
 
-- `media_file_id` — for "history for this file" queries
-- `detected_at` — for chronological listing
+- `media_file_id` - for "history for this file" queries
+- `detected_at` - for chronological listing
 
 ### Constraints
 
-- `delta_type` IN ('replacement', 'corruption', 'unknown') — default `replacement`
+- `delta_type` IN ('replacement', 'corruption', 'unknown') - default `replacement`
 - FK `media_file_id` REFERENCES `media_file(id)` ON DELETE CASCADE (history goes with the file)
 - **One open row per media_file:** partial unique index enforces the lifecycle invariant at DB level:
 
@@ -108,7 +108,7 @@ needIntegrityCheck → computeFingerprint → integrityChanged = (fingerprint di
         Update open row's new_* fields; do not insert
 ```
 
-**Transaction boundary:** Both actions must run inside the **same transaction** as the scanner's DB transaction. Otherwise insert could succeed and flag fail (or vice versa) — inconsistent state. Atomic.
+**Transaction boundary:** Both actions must run inside the **same transaction** as the scanner's DB transaction. Otherwise insert could succeed and flag fail (or vice versa) - inconsistent state. Atomic.
 
 **Data available at that point:**
 
@@ -124,7 +124,7 @@ needIntegrityCheck → computeFingerprint → integrityChanged = (fingerprint di
 Current flow in `accept-replacement` endpoint:
 
 1. Compute fingerprint from current file
-2. `acceptMediaFileReplacement(id, fingerprint)` — updates media_file, clears integrity_flagged
+2. `acceptMediaFileReplacement(id, fingerprint)` - updates media_file, clears integrity_flagged
 3. Probe file, `updateMediaFileProbe(id, result)`
 
 New flow:
@@ -142,13 +142,13 @@ New flow:
 
 Edge case: file changes, we detect, insert row A, flag. Before user accepts, the file changes again. Next scan detects again.
 
-**Behavior (Option A — recommended):**
+**Behavior (Option A - recommended):**
 
 If `integrity_flagged` is already true for this media_file:
 
 - **Do not insert another row.** (Would violate one-open-row invariant.)
 - **Update the existing open row:** set `new_fingerprint_size`, `new_head_hash`, `new_tail_hash` to current on-disk fingerprint. Keep `old_*` intact.
-- Optionally refresh `detected_at` (or leave as first detection — both defensible).
+- Optionally refresh `detected_at` (or leave as first detection - both defensible).
 
 We track the delta from **last accepted fingerprint** to **current on-disk fingerprint**. Not every intermediate change. Correct for a library tied to identity, not filesystem noise.
 
@@ -164,7 +164,7 @@ This constraint must be explicit in the implementation: before insert, check for
 | `corruption`  | Suspected corruption (future: partial read error, size mismatch mid-stream, bitrot). |
 | `unknown`     | We don't know why it changed.                                                        |
 
-For now, always use `replacement`. Schema must not assume `replacement` forever — leave delta_type flexible for future detection modes.
+For now, always use `replacement`. Schema must not assume `replacement` forever - leave delta_type flexible for future detection modes.
 
 ---
 
@@ -194,7 +194,7 @@ Capability at acceptance: HEVC HDR10, AAC 5.1
 
 ### `GET /api/media-file/[id]/integrity-history`
 
-Returns array of history rows for this media file. **Order: `detected_at DESC`** (newest first). Encode explicitly in the API layer — command center users expect recency-first.
+Returns array of history rows for this media file. **Order: `detected_at DESC`** (newest first). Encode explicitly in the API layer - command center users expect recency-first.
 
 ```json
 [
@@ -220,10 +220,10 @@ Returns array of history rows for this media file. **Order: `detected_at DESC`**
 
 ## What We Are Not Doing
 
-- **Diff visualizations** — overkill
-- **Full file hashing** — fingerprint is sufficient
-- **Version branching** — this is history, not version control
-- **Rollback** — would require storing previous file, restoring content, version graphing. Not in scope. History is observational, not operational.
+- **Diff visualizations** - overkill
+- **Full file hashing** - fingerprint is sufficient
+- **Version branching** - this is history, not version control
+- **Rollback** - would require storing previous file, restoring content, version graphing. Not in scope. History is observational, not operational.
 
 Majestic is not Git.
 
@@ -231,14 +231,14 @@ Majestic is not Git.
 
 ## Implementation Order
 
-1. **Migration** — create `media_file_integrity_history` table + partial unique index
-2. **Insert/update on detect** — scanner: when `integrityChanged`, inside same transaction:
+1. **Migration** - create `media_file_integrity_history` table + partial unique index
+2. **Insert/update on detect** - scanner: when `integrityChanged`, inside same transaction:
    - If no open row: insert history, then flag
    - If open row exists (already flagged): update `new_*` on that row; do not insert
    - Extend `fileDataMap` to store `fingerprint` (new) when integrity check runs
-3. **Update on accept** — accept-replacement: set `accepted_at` on open row
-4. **API** — `GET /api/media-file/[id]/integrity-history`
-5. **UI** — Command center view (Settings or Library detail)
+3. **Update on accept** - accept-replacement: set `accepted_at` on open row
+4. **API** - `GET /api/media-file/[id]/integrity-history`
+5. **UI** - Command center view (Settings or Library detail)
 
 ---
 

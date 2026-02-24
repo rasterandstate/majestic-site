@@ -1,13 +1,13 @@
 ---
 title: Contract Reference
-description: Wire contract — version, hash, schemas, endpoint map
+description: Wire contract (version, hash, schemas, endpoint map)
 ---
 
 # Contract Reference
 
 **Version:** `1.0.2`  
 **Hash:** `sha256-07239d0e1a46c781c78b3ae70db52acceeb8dc17e431cd64858e23ad0e61020d`  
-**Generated:** —
+**Generated:** -
 
 Majestic uses a single, coordinated contract version across server and client. Hash enforcement prevents silent drift.
 
@@ -36,4 +36,4 @@ Majestic uses a single, coordinated contract version across server and client. H
 
 ## Download
 
-[Download contract.bundle.json](/contract.bundle.json) — deterministic, hash-verified aggregate of all schemas.
+[Download contract.bundle.json](/contract.bundle.json): deterministic, hash-verified aggregate of all schemas.

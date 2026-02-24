@@ -1,4 +1,4 @@
-# Majestic Curated API — Cloudflare Shared Data Layer
+# Majestic Curated API - Cloudflare Shared Data Layer
 
 > **DEPRECATED.** The metadata/enrichment layer described here is superseded by [majestic-canon](../strategy/authoritative-data-distribution-dissection.md#15-canon-architecture--three-layers). Canon uses authoritative data distribution (signed patch packs) instead of live API. This document is retained for historical context and optional live-assist fallback design. **See majestic-canon for the canonical dataset source.**
 
@@ -6,7 +6,7 @@
 
 **Purpose (historical):** Centralize movie, edition, person, and studio data for all paid Majestic server installs. Prior matched movies and editions become available to every paid instance, reducing TMDB/OMDb lookups and improving edition matching accuracy.
 
-**Context:** TMDB models Movie as atomic. Multi-version (theatrical vs director's cut, etc.) has been in their backlog since 2019—it requires a parent/child ontology they don't have. Majestic designed Movie → Edition from day one. The Curated API was the interim design. **majestic-canon** is the target: patch-based distribution, not live API.
+**Context:** TMDB models Movie as atomic. Multi-version (theatrical vs director's cut, etc.) has been in their backlog since 2019 - it requires a parent/child ontology they don't have. Majestic designed Movie → Edition from day one. The Curated API was the interim design. **majestic-canon** is the target: patch-based distribution, not live API.
 
 **Status:** Deprecated. Superseded by majestic-canon. Optional live-assist fallback only (under 5% of lookups).
 
@@ -312,12 +312,12 @@ Not required at launch. Build when telemetry schema exists and installs are live
 ## 11. Implementation Order
 
 1. **Design doc** (this document) ✓
-2. **Roadmap phase** — Add Phase 1.5 to ROADMAP
-3. **curatedApiClient** — Minimal client: `lookupByTitleYear`, `lookupByUpc`. No-op when unconfigured.
-4. **Scanner integration** — Call client before local DB when parsing filename/folder. Fallback unchanged.
-5. **Cloudflare Workers** — Deploy read-only API. D1 or R2 backend. Auth middleware.
-6. **Edition Validation 100** — Seed dataset. Verify matching correctness.
-7. **Barcode integration** — Call `GET /editions/upc/:upc` in barcodeService before UPCMDB.
+2. **Roadmap phase** - Add Phase 1.5 to ROADMAP
+3. **curatedApiClient** - Minimal client: `lookupByTitleYear`, `lookupByUpc`. No-op when unconfigured.
+4. **Scanner integration** - Call client before local DB when parsing filename/folder. Fallback unchanged.
+5. **Cloudflare Workers** - Deploy read-only API. D1 or R2 backend. Auth middleware.
+6. **Edition Validation 100** - Seed dataset. Verify matching correctness.
+7. **Barcode integration** - Call `GET /editions/upc/:upc` in barcodeService before UPCMDB.
 
 ---
 
@@ -343,4 +343,4 @@ Curated API does not compromise foundational principles. Keep it boring. Keep it
 | **Dataset corrections retroactively alter identity** | Never silently mutate identity_hash or UPC normalization. Dataset improvements must be additive, not destructive. Version-signal any logic change. |
 | **Latency creep** | 500ms is hard. Not advisory. If lookup drifts to 900ms, 1.2s, 2s, scanner UX degrades. Enforce at client. |
 | **Curated API becomes "better TMDB"** | Stay narrow. Store identity-critical edition data, canonical film linkage, deterministic match keys. Do not become a general-purpose metadata mirror, popularity engine, or review aggregation system. Let TMDB chase popularity. Majestic chases correctness. |
-| **Identity vs engagement data mixing** | Alternate overviews, cut-specific runtime, cast differences—fine if identity-critical. Do not store user taste signals, popularity adjustments, ranking hints, or behavioral metadata. The moment you mix identity with engagement, you blur the contract. Curated layer = edition correctness. Nothing else. |
+| **Identity vs engagement data mixing** | Alternate overviews, cut-specific runtime, cast differences - fine if identity-critical. Do not store user taste signals, popularity adjustments, ranking hints, or behavioral metadata. The moment you mix identity with engagement, you blur the contract. Curated layer = edition correctness. Nothing else. |

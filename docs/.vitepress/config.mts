@@ -7,7 +7,7 @@ if (base !== '/' && !base.endsWith('/')) base += '/';
 
 export default defineConfig({
   title: 'Majestic Core',
-  description: 'Technical documentation — architecture, API contracts, invariants',
+  description: 'Technical documentation: architecture, API contracts, invariants',
   base,
   lang: 'en-US',
 
@@ -15,7 +15,7 @@ export default defineConfig({
     ['link', { rel: 'icon', href: `${base === '/' ? '/' : base}logo.svg`, type: 'image/svg+xml' }],
   ],
 
-  appearance: 'force-dark', // Match Svelte app — dark only, no toggle
+  appearance: 'force-dark', // Match Svelte app (dark only, no toggle)
 
   themeConfig: {
     logo: '/logo.svg',

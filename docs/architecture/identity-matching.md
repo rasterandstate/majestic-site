@@ -4,15 +4,15 @@ Majestic matches media files to movies using a deterministic priority order. The
 
 ## Resolution Order
 
-1. **Per-file `.majestic.json`** — `{filename}.majestic.json` in the same directory (e.g. `A New Standard.mkv.majestic.json`). Overrides directory-level for this file only. Use when a shared extras folder contains files from different movies.
+1. **Per-file `.majestic.json`** - `{filename}.majestic.json` in the same directory (e.g. `A New Standard.mkv.majestic.json`). Overrides directory-level for this file only. Use when a shared extras folder contains files from different movies.
 
-2. **Directory-level `.majestic.json`** — `.majestic.json` in the file's directory. Applies to all files in that folder. Written automatically when you resolve or re-match in the UI.
+2. **Directory-level `.majestic.json`** - `.majestic.json` in the file's directory. Applies to all files in that folder. Written automatically when you resolve or re-match in the UI.
 
-3. **Filename parsing** — `Title (Year).mkv`, `Title (Year) [Steelbook].mkv`, etc.
+3. **Filename parsing** - `Title (Year).mkv`, `Title (Year) [Steelbook].mkv`, etc.
 
-4. **Folder name parsing** — Parent directory name.
+4. **Folder name parsing** - Parent directory name.
 
-5. **User confirmation** — Unresolved or ambiguous matches appear in Settings → Unresolved.
+5. **User confirmation** - Unresolved or ambiguous matches appear in Settings → Unresolved.
 
 ## What `.majestic.json` Contains
 
@@ -47,10 +47,10 @@ The matcher still **reads** `.majestic.json` if present; it just **skips writing
 
 ## Why This Design
 
-- **DB is source of truth** — Survives rescans, renames, restarts. Scanner respects existing `media_file.movie_id`.
-- **Per-file override** — Shared extras folders (e.g. `Extras/` with files from multiple movies) can use per-file `.majestic.json` to avoid directory-level overreach.
-- **No file mutation** — We never modify the media file itself. Only metadata.
-- **Transparent** — A visible JSON file in the folder. Users who organize by folder can inspect or edit it.
+- **DB is source of truth** - Survives rescans, renames, restarts. Scanner respects existing `media_file.movie_id`.
+- **Per-file override** - Shared extras folders (e.g. `Extras/` with files from multiple movies) can use per-file `.majestic.json` to avoid directory-level overreach.
+- **No file mutation** - We never modify the media file itself. Only metadata.
+- **Transparent** - A visible JSON file in the folder. Users who organize by folder can inspect or edit it.
 
 ## Target Audience
 

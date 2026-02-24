@@ -17,12 +17,12 @@ Majestic uses **SemVer** for API contracts. The contract version is enforced via
 
 | Change | Bump | Impact |
 |--------|------|--------|
-| Field removed | **Major** | Breaking — all clients must update |
+| Field removed | **Major** | Breaking - all clients must update |
 | Field renamed | **Major** | Breaking |
 | Type changed incompatibly | **Major** | Breaking |
 | Enum value removed | **Major** | Breaking |
-| New optional field added | **Minor** | Additive — clients can ignore |
-| New enum value added | **Minor** | Additive — forward-compat |
+| New optional field added | **Minor** | Additive - clients can ignore |
+| New enum value added | **Minor** | Additive - forward-compat |
 | Description/docs only | **Patch** | No wire change |
 
 ---
@@ -31,10 +31,10 @@ Majestic uses **SemVer** for API contracts. The contract version is enforced via
 
 When you bump the contract version:
 
-1. **Server** — Must return responses that conform. Update implementation.
-2. **Apple TV** — Update models if shape changed. Sync with `majestic-api-contracts/swift/` when applicable.
-3. **Roku** — Update `CONTRACT_ALIGNMENT.md` and parsing. BrightScript has no types; doc parity matters.
-4. **Tizen** — Same as Roku when implemented.
+1. **Server** - Must return responses that conform. Update implementation.
+2. **Apple TV** - Update models if shape changed. Sync with `majestic-api-contracts/swift/` when applicable.
+3. **Roku** - Update `CONTRACT_ALIGNMENT.md` and parsing. BrightScript has no types; doc parity matters.
+4. **Tizen** - Same as Roku when implemented.
 
 **Header:** Clients send `X-Majestic-Client-Contract`; server may enforce minimum version.
 
@@ -57,7 +57,7 @@ When you bump the contract version:
 1. Add to schema (optional for minor, required for major).
 2. Bump `CONTRACT_VERSION` in `src/version.ts`.
 3. Run `pnpm run generate`.
-4. Run `pnpm run check:hash` — copy printed hash.
+4. Run `pnpm run check:hash` - copy printed hash.
 5. Add `"X.Y.Z": "sha256-..."` to `contract-hashes.json`.
 6. Update server to return the field.
 7. Update clients when they need it (optional fields can be ignored).

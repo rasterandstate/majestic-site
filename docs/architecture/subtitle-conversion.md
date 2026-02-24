@@ -1,4 +1,4 @@
-# Subtitle Conversion — Design
+# Subtitle Conversion - Design
 
 Converts PGS/VOBSUB/ASS to SRT when the device only supports SRT/WebVTT. Addresses Plex pain point: "subtitles broke playback." See `docs/PLEX-PAIN-POINTS-LESSONS.md`.
 
@@ -23,7 +23,7 @@ Converts PGS/VOBSUB/ASS to SRT when the device only supports SRT/WebVTT. Address
 | **ASS/SSA** | Text-based, direct conversion | ffmpeg `-map 0:s:0 -c:s srt` |
 | **PGS/VOBSUB** | Image-based, requires OCR | External tool via `MAJESTIC_PGS_CONVERTER_PATH` |
 
-**PGS/VOBSUB:** Set `MAJESTIC_PGS_CONVERTER_PATH` to a CLI that accepts `input.mkv output.srt`. Use the bundled `scripts/pgsrip-wrapper.sh` with pgsrip—see `docs/PGS-SUBTITLE-SETUP.md`.
+**PGS/VOBSUB:** Set `MAJESTIC_PGS_CONVERTER_PATH` to a CLI that accepts `input.mkv output.srt`. Use the bundled `scripts/pgsrip-wrapper.sh` with pgsrip - see `docs/PGS-SUBTITLE-SETUP.md`.
 
 ---
 
@@ -54,7 +54,7 @@ When `subtitle_artifact_ready` is true (ready artifact exists for media_file), e
 
 ## Apple TV Client
 
-- `LibraryEdition.subtitle_url` — when artifact exists, e.g. `/stream/media_file/123/subtitles`
+- `LibraryEdition.subtitle_url` - when artifact exists, e.g. `/stream/media_file/123/subtitles`
 - `PlayerView` loads SRT, parses with minimal parser, displays overlay at bottom
 - Playback time observed every 250ms; current cue shown
 
