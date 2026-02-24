@@ -1,0 +1,88 @@
+# Deploy majestic-site to GitHub Pages
+# majesticcore.dev → output of this repo only
+name: Deploy
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout majestic-site
+        uses: actions/checkout@v4
+        with:
+          path: majestic-site
+
+      - name: Checkout majestic-docs
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ github.repository_owner }}/majestic-docs
+          path: majestic-docs
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Checkout majestic-api-contracts
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ github.repository_owner }}/majestic-api-contracts
+          path: majestic-api-contracts
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'pnpm'
+          cache-dependency-path: majestic-site/pnpm-lock.yaml
+
+      - name: Install majestic-site deps
+        run: pnpm install --frozen-lockfile
+        working-directory: majestic-site
+
+      - name: Install majestic-api-contracts deps
+        run: pnpm install --frozen-lockfile
+        working-directory: majestic-api-contracts
+
+      - name: Prepare (copy docs, generate contracts, copy artifacts)
+        run: pnpm run prepare
+        working-directory: majestic-site
+        env:
+          MAJESTIC_DOCS_PATH: ${{ github.workspace }}/majestic-docs
+          MAJESTIC_CONTRACTS_PATH: ${{ github.workspace }}/majestic-api-contracts
+
+      - name: Build site
+        run: pnpm run docs:build
+        working-directory: majestic-site
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: majestic-site/docs/.vitepress/dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
