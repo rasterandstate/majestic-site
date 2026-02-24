@@ -1,10 +1,19 @@
 import { defineConfig } from 'vitepress';
 
+// GitHub Pages project site: base = /majestic-site/
+// Custom domain (majesticcore.dev): set BASE_PATH=/ in workflow env
+let base = process.env.BASE_PATH || '/majestic-site/';
+if (base !== '/' && !base.endsWith('/')) base += '/';
+
 export default defineConfig({
   title: 'Majestic Core',
   description: 'Technical documentation — architecture, API contracts, invariants',
-  base: '/',
+  base,
   lang: 'en-US',
+
+  head: [
+    ['link', { rel: 'icon', href: `${base === '/' ? '/' : base}logo.svg`, type: 'image/svg+xml' }],
+  ],
 
   appearance: 'force-dark', // Match Svelte app — dark only, no toggle
 

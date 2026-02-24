@@ -48,3 +48,5 @@ On push to `main`:
 ## Custom Domain
 
 `docs/public/CNAME` contains `majesticcore.dev`. Configure GitHub Pages to use this domain.
+
+**Base path:** Project sites deploy at `username.github.io/majestic-site/`, so `base` defaults to `/majestic-site/`. When using a custom domain (majesticcore.dev), set repository variable `BASE_PATH=/` so assets resolve from the root.
