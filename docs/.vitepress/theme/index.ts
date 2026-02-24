@@ -1,5 +1,6 @@
 import DefaultTheme from 'vitepress/theme';
 import { h } from 'vue';
+import './majestic.css';
 
 // Build meta written by prepare.mjs — import path relative to theme
 // @ts-expect-error JSON import

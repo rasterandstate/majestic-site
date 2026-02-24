@@ -1,0 +1,57 @@
+/**
+ * Majestic brand palette — matches Svelte app (majestic-server app.css, tailwind)
+ * Dark theme only. Spec site, not marketing.
+ */
+:root,
+.dark {
+  /* Backgrounds — brand-void, charcoal, ash */
+  --vp-c-bg: #0f0d0b;
+  --vp-c-bg-alt: #1a1814;
+  --vp-c-bg-elv: #252219;
+  --vp-c-bg-soft: #252219;
+
+  /* Text — brand-bone, muted, subtle */
+  --vp-c-text-1: #e8e2d8;
+  --vp-c-text-2: #b8b0a4;
+  --vp-c-text-3: #8a8378;
+
+  /* Brand accent — espresso gold */
+  --vp-c-brand-1: #a67b4a;
+  --vp-c-brand-2: #c9a065;
+  --vp-c-brand-3: #8e6b3a;
+  --vp-c-brand-soft: rgba(166, 123, 74, 0.15);
+
+  /* Borders — subtle bone tint */
+  --vp-c-border: rgba(232, 226, 216, 0.12);
+  --vp-c-divider: rgba(232, 226, 216, 0.08);
+  --vp-c-gutter: rgba(0, 0, 0, 0.4);
+
+  /* Default/gray — warm neutrals */
+  --vp-c-default-1: #8a8378;
+  --vp-c-default-2: #6a6358;
+  --vp-c-default-3: #4a4338;
+  --vp-c-default-soft: rgba(138, 131, 120, 0.12);
+
+  /* Code block */
+  --vp-code-block-bg: #1a1814;
+  --vp-code-block-divider-color: rgba(232, 226, 216, 0.08);
+  --vp-code-color: #c9a065;
+  --vp-code-link-color: #a67b4a;
+  --vp-code-link-hover-color: #c9a065;
+
+  /* Nav / sidebar */
+  --vp-nav-bg-color: #0f0d0b;
+  --vp-nav-screen-bg-color: #0f0d0b;
+  --vp-sidebar-bg-color: #1a1814;
+  --vp-local-nav-bg-color: #0f0d0b;
+
+  /* Button brand */
+  --vp-button-brand-bg: #8e6b3a;
+  --vp-button-brand-hover-bg: #a67b4a;
+  --vp-button-brand-active-bg: #c9a065;
+}
+
+/* Light mode: force same dark palette (spec site is dark) */
+:root:not(.dark) {
+  color-scheme: dark;
+}

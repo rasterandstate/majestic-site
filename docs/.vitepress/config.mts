@@ -6,6 +6,8 @@ export default defineConfig({
   base: '/',
   lang: 'en-US',
 
+  appearance: 'force-dark', // Match Svelte app — dark only, no toggle
+
   themeConfig: {
     logo: '/logo.svg',
     nav: [
