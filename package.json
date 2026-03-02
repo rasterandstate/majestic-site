@@ -1,6 +1,7 @@
 {
   "name": "majestic-site",
   "version": "1.0.0",
+  "packageManager": "pnpm@10.30.3",
   "description": "Static documentation site for Majestic — architecture, contracts, invariants",
   "type": "module",
   "scripts": {
