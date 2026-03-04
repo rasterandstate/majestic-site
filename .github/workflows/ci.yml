@@ -1,0 +1,67 @@
+# Majestic Site CI — build docs site.
+# No continue-on-error. No retries. Fails loudly.
+#
+# Deploy workflow (deploy.yml) handles deployment; this validates build on push/PR.
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout majestic-site
+        uses: actions/checkout@v4
+        with:
+          path: majestic-site
+
+      - name: Checkout majestic-docs
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ github.repository_owner }}/majestic-docs
+          ref: main
+          path: majestic-docs
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Checkout majestic-api-contracts
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ github.repository_owner }}/majestic-api-contracts
+          ref: main
+          path: majestic-api-contracts
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - uses: pnpm/action-setup@v4
+        with:
+          package_json_file: majestic-site/package.json
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'pnpm'
+          cache-dependency-path: majestic-site/pnpm-lock.yaml
+
+      - name: Install majestic-site deps
+        run: pnpm install --frozen-lockfile
+        working-directory: majestic-site
+
+      - name: Prepare (copy docs, install contracts deps, generate, copy artifacts)
+        run: pnpm run prepare
+        working-directory: majestic-site
+        env:
+          MAJESTIC_DOCS_PATH: ${{ github.workspace }}/majestic-docs
+          MAJESTIC_CONTRACTS_PATH: ${{ github.workspace }}/majestic-api-contracts
+
+      - name: Build site
+        run: pnpm run docs:build
+        working-directory: majestic-site
+        env:
+          BASE_PATH: ${{ vars.BASE_PATH }}
