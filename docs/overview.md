@@ -15,5 +15,9 @@ Majestic is a local-first media server built on immutable edition identity.
 |---------|----------|
 | [Architecture](/architecture/) | Identity, API, build, streaming, data lineage |
 | [Contracts](/contracts/) | Schemas, versioning, canonical bundle |
-| [Integration](/integration/) | Client integration patterns |
+| [Integration](/integration/) | Client integration, Roku, streaming platforms |
 | [Invariants](/invariants/) | Breaking-change rules, compatibility policy |
+| [Compatibility](/compatibility/) | Device format support |
+| [Validation](/validation/) | Soak testing, concurrency, crash recovery |
+| [Operations](/operations/deployment) | Deployment guide |
+| [Reference](/reference/TERMINOLOGY) | Canonical terminology |

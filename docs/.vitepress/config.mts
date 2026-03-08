@@ -25,6 +25,7 @@ export default defineConfig({
       { text: 'Contracts', link: '/contracts/' },
       { text: 'Integration', link: '/integration/' },
       { text: 'Invariants', link: '/invariants/' },
+      { text: 'Operations', link: '/operations/deployment' },
     ],
 
     sidebar: {
@@ -55,6 +56,8 @@ export default defineConfig({
           text: 'Integration',
           items: [
             { text: 'Client Integration', link: '/integration/' },
+            { text: 'Roku Contract Alignment', link: '/integration/roku-contract-alignment' },
+            { text: 'Streaming Platforms', link: '/integration/streaming-platforms' },
           ],
         },
       ],
@@ -64,6 +67,40 @@ export default defineConfig({
           items: [
             { text: 'Breaking Changes', link: '/invariants/breaking-changes' },
             { text: 'Compatibility Policy', link: '/invariants/compatibility-policy' },
+          ],
+        },
+      ],
+      '/compatibility/': [
+        {
+          text: 'Compatibility',
+          items: [
+            { text: 'Apple TV Format Support', link: '/compatibility/apple-tv-format-support' },
+          ],
+        },
+      ],
+      '/reference/': [
+        {
+          text: 'Reference',
+          items: [
+            { text: 'Terminology', link: '/reference/TERMINOLOGY' },
+          ],
+        },
+      ],
+      '/validation/': [
+        {
+          text: 'Validation',
+          items: [
+            { text: 'Soak Testing', link: '/validation/soak-testing' },
+            { text: 'Concurrency', link: '/validation/concurrency' },
+            { text: 'Crash Recovery', link: '/validation/crash-recovery' },
+          ],
+        },
+      ],
+      '/operations/': [
+        {
+          text: 'Operations',
+          items: [
+            { text: 'Deployment', link: '/operations/deployment' },
           ],
         },
       ],

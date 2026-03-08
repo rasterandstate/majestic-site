@@ -99,6 +99,76 @@ function prepareDocs() {
     }
     console.log('Copied versioning docs');
   }
+
+  // compatibility/ (e.g. apple-tv-format-support)
+  const compatSrc = join(DOCS_REPO, 'compatibility');
+  const compatDest = join(docsDir, 'compatibility');
+  if (existsSync(compatSrc)) {
+    mkdirSync(compatDest, { recursive: true });
+    for (const name of readdirSync(compatSrc)) {
+      if (name.endsWith('.md')) {
+        const content = noEmDash(readFileSync(join(compatSrc, name), 'utf-8'));
+        writeFileSync(join(compatDest, name), content, 'utf-8');
+      }
+    }
+    console.log('Copied compatibility docs');
+  }
+
+  // integration/ (roku-contract-alignment, streaming-platforms - index stays from site)
+  const intSrc = join(DOCS_REPO, 'integration');
+  const intDest = join(docsDir, 'integration');
+  if (existsSync(intSrc)) {
+    mkdirSync(intDest, { recursive: true });
+    for (const name of readdirSync(intSrc)) {
+      if (name.endsWith('.md')) {
+        const content = noEmDash(readFileSync(join(intSrc, name), 'utf-8'));
+        writeFileSync(join(intDest, name), content, 'utf-8');
+      }
+    }
+    console.log('Copied integration docs');
+  }
+
+  // reference/ (TERMINOLOGY)
+  const refSrc = join(DOCS_REPO, 'reference');
+  const refDest = join(docsDir, 'reference');
+  if (existsSync(refSrc)) {
+    mkdirSync(refDest, { recursive: true });
+    for (const name of readdirSync(refSrc)) {
+      if (name.endsWith('.md')) {
+        const content = noEmDash(readFileSync(join(refSrc, name), 'utf-8'));
+        writeFileSync(join(refDest, name), content, 'utf-8');
+      }
+    }
+    console.log('Copied reference docs');
+  }
+
+  // validation/ (soak-testing, concurrency, crash-recovery)
+  const valSrc = join(DOCS_REPO, 'validation');
+  const valDest = join(docsDir, 'validation');
+  if (existsSync(valSrc)) {
+    mkdirSync(valDest, { recursive: true });
+    for (const name of readdirSync(valSrc)) {
+      if (name.endsWith('.md')) {
+        const content = noEmDash(readFileSync(join(valSrc, name), 'utf-8'));
+        writeFileSync(join(valDest, name), content, 'utf-8');
+      }
+    }
+    console.log('Copied validation docs');
+  }
+
+  // operations/ (deployment)
+  const opsSrc = join(DOCS_REPO, 'operations');
+  const opsDest = join(docsDir, 'operations');
+  if (existsSync(opsSrc)) {
+    mkdirSync(opsDest, { recursive: true });
+    for (const name of readdirSync(opsSrc)) {
+      if (name.endsWith('.md')) {
+        const content = noEmDash(readFileSync(join(opsSrc, name), 'utf-8'));
+        writeFileSync(join(opsDest, name), content, 'utf-8');
+      }
+    }
+    console.log('Copied operations docs');
+  }
 }
 
 function prepareContracts() {
