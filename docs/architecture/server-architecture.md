@@ -260,6 +260,7 @@
 
 ## 8. Constraints
 
+- **Single-node deployment:** Artifact coordination assumes a single server instance. Build locks and artifact state are process-local. Do not run multiple instances without a distributed coordination layer.
 - No breaking changes to edition identity or fingerprint algorithm without migration.
 - New clients must use API contracts; no ad-hoc response shapes.
 - Transcoding logic stays in build tools; streaming path remains thin.
